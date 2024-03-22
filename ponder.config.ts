@@ -1,21 +1,22 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
-import { ExampleContractAbi } from "./abis/ExampleContractAbi";
+import { cubAbi } from "./abis/cub";
 
 export default createConfig({
   networks: {
-    mainnet: {
-      chainId: 1,
-      transport: http(process.env.PONDER_RPC_URL_1),
+    berachainArtio: {
+      chainId: 80085,
+      transport: http(process.env.PONDER_RPC_URL_80085),
     },
   },
   contracts: {
-    ExampleContract: {
-      network: "mainnet",
-      abi: ExampleContractAbi,
-      address: "0x0",
-      startBlock: 1234567,
+    CubContract: {
+      network: "berachainArtio",
+      abi: cubAbi,
+      address: "0xd9C0D89A9196d29D7B840e8225E550705CC02Aa0",
+      startBlock: 762066,
+      filter: { event: "TransferBatch" },
     },
   },
 });
