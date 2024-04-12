@@ -1,47 +1,46 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
-import { cubAbi } from "./abis/cub";
-import { erc721Abi } from "./abis/erc721";
-import { wagmiPadTicketAbi } from "./abis/wagmiPadTicket";
+import { hookVaultAbi } from "./abis/hookVault";
 
 export default createConfig({
+  database: {
+    kind: "postgres",
+  },
   networks: {
-    berachainArtio: {
-      chainId: 80085,
-      maxHistoricalTaskConcurrency: 1,
-      transport: http(process.env.PONDER_RPC_URL_80085, { timeout: 900_000 }),
+    ethereum: {
+      chainId: 1,
+      transport: http(process.env.PONDER_RPC_URL_1),
+    },
+    arbitrum: {
+      chainId: 42161,
+      transport: http(process.env.PONDER_RPC_URL_42161),
+    },
+    base: {
+      chainId: 8453,
+      transport: http(process.env.PONDER_RPC_URL_8453),
     },
   },
   contracts: {
-    CubContract: {
-      network: "berachainArtio",
-      abi: cubAbi,
-      address: "0xd9C0D89A9196d29D7B840e8225E550705CC02Aa0",
-      startBlock: 762066,
-      maxBlockRange: 200,
-      filter: { event: "TransferBatch" },
-    },
-    WagmiPadTicketContract: {
-      network: "berachainArtio",
-      abi: wagmiPadTicketAbi,
-      address: "0xC5E02F53006380A6705A60d7861e2210e87C0DFC",
-      startBlock: 762066,
-      maxBlockRange: 200,
-      filter: {
-        event: "ERC20Transfer",
-        args: { from: "0x0000000000000000000000000000000000000000" },
-      },
-    },
-    ZypherMysteryBoxContract: {
-      network: "berachainArtio",
-      abi: erc721Abi,
-      address: "0xC5E02F53006380A6705A60d7861e2210e87C0DFC",
-      startBlock: 762066,
-      maxBlockRange: 200,
-      filter: {
-        event: "Transfer",
-        args: { from: "0x0000000000000000000000000000000000000000" },
+    HookVault: {
+      abi: hookVaultAbi,
+      filter: { event: "TokensDeposited" },
+      network: {
+        ethereum: {
+          address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
+          startBlock: 19321051, // deploy tx block
+          endBlock: 19321051 + 100,
+        },
+        arbitrum: {
+          address: "0xCa34d7cc253b47E0248b80c859F38a658db7BcCC",
+          startBlock: 180189042,
+          endBlock: 180189042 + 100,
+        },
+        base: {
+          address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
+          startBlock: 12694135,
+          endBlock: 12694135 + 100,
+        },
       },
     },
   },
