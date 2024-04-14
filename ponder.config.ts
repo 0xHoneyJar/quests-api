@@ -28,18 +28,18 @@ export default createConfig({
       network: {
         ethereum: {
           address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
-          startBlock: 19321051, // deploy tx block
-          endBlock: 19321051 + 100,
+          startBlock: 19672108,
+          endBlock: 19693863,
         },
         arbitrum: {
           address: "0xCa34d7cc253b47E0248b80c859F38a658db7BcCC",
-          startBlock: 180189042,
-          endBlock: 180189042 + 100,
+          startBlock: 201662549,
+          endBlock: 202538531,
         },
         base: {
           address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
-          startBlock: 12694135,
-          endBlock: 12694135 + 100,
+          startBlock: 13264923,
+          endBlock: 13396328,
         },
       },
     },
