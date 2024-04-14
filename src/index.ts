@@ -1,6 +1,8 @@
 import { ponder } from "@/generated";
 
 ponder.on("HookVault:TokensDeposited", async ({ event, context }) => {
+  if (event.block.timestamp < 1713327600 || event.block.timestamp > 1713586800)
+    return;
   const { HookDeposit } = context.db;
   const user = await HookDeposit.findUnique({
     id: event.transaction.from,
