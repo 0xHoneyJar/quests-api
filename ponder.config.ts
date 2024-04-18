@@ -4,10 +4,10 @@ import { http } from "viem";
 import { hookVaultAbi } from "./abis/hookVault";
 
 export default createConfig({
-    database : {
-        kind: "postgres",
-        schema: "public"
-    }
+  database: {
+    kind: "postgres",
+    schema: "public",
+  },
   networks: {
     ethereum: {
       chainId: 1,
