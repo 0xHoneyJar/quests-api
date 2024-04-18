@@ -4,9 +4,6 @@ import { http } from "viem";
 import { hookVaultAbi } from "./abis/hookVault";
 
 export default createConfig({
-  database: {
-    kind: "postgres",
-  },
   networks: {
     ethereum: {
       chainId: 1,
@@ -29,17 +26,17 @@ export default createConfig({
         ethereum: {
           address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
           startBlock: 19672108,
-          endBlock: 19693863,
+          endBlock: 19716773,
         },
         arbitrum: {
           address: "0xCa34d7cc253b47E0248b80c859F38a658db7BcCC",
           startBlock: 201662549,
-          endBlock: 202538531,
+          endBlock: 203684249,
         },
         base: {
           address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
           startBlock: 13264923,
-          endBlock: 13396328,
+          endBlock: 13534940,
         },
       },
     },
