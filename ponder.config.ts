@@ -7,6 +7,7 @@ export default createConfig({
   database: {
     kind: "postgres",
     schema: "public",
+    publishSchema: "indexer",
   },
   networks: {
     ethereum: {
