@@ -63,6 +63,7 @@ export default createConfig({
           address: "0x1F136a43101D12F98c9887D46D7cDbEFACdd573D",
           startBlock: 1041454,
           endBlock: 1209454,
+          maxBlockRange: 200,
         },
       },
     },
