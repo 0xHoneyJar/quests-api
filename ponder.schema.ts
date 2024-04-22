@@ -5,4 +5,7 @@ export default createSchema((p) => ({
     id: p.string(), // address of user
     deposited: p.bigint(),
   }),
+  BobaRecipient: p.createTable({
+    id: p.string(),
+  }),
 }));

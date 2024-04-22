@@ -14,3 +14,10 @@ ponder.on("HookVault:TokensDeposited", async ({ event, context }) => {
     }),
   });
 });
+
+ponder.on("Boba:ERC20Transfer", async ({ event, context }) => {
+  const { BobaRecipient } = context.db;
+  await BobaRecipient.upsert({
+    id: event.args.to.toString(),
+  });
+});
