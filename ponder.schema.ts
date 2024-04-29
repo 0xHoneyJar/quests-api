@@ -5,4 +5,8 @@ export default createSchema((p) => ({
     id: p.string(),
     quantity: p.bigint(),
   }),
+  HookDeposit: p.createTable({
+    id: p.string(), // address of user
+    deposited: p.bigint(),
+  }),
 }));
