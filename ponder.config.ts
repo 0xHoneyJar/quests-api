@@ -1,7 +1,7 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
-import { hookVaultAbi } from "./abis/hookVault";
+import { erc1155Abi } from "./abis/erc1155";
 
 export default createConfig({
   database: {
@@ -23,5 +23,21 @@ export default createConfig({
       transport: http(process.env.PONDER_RPC_URL_8453),
     },
   },
-  contracts: {},
+  contracts: {
+    Zora1155: {
+      abi: erc1155Abi,
+      filter: {
+        event: "TransferSingle",
+        args: {
+          from: "0x000000000000000000000000000000000000000",
+        },
+      },
+      network: {
+        base: {
+          address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
+          startBlock: 13264923, // TBD
+        },
+      },
+    },
+  },
 });
