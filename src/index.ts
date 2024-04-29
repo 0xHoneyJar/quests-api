@@ -12,7 +12,7 @@ ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
   const { ApicultureMint } = context.db;
   console.log("found");
   const token = await ApicultureMint.upsert({
-    id: event.transaction.from.toString(),
+    id: event.args.to,
     create: {
       quantity: event.args.amount,
     },
