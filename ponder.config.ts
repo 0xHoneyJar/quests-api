@@ -29,13 +29,13 @@ export default createConfig({
       filter: {
         event: "TransferSingle",
         args: {
-          from: "0x000000000000000000000000000000000000000",
+          from: "0x0000000000000000000000000000000000000000",
         },
       },
       network: {
         base: {
-          address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
-          startBlock: 13264923, // TBD
+          address: "0x6cfb9280767a3596ee6af887d900014a755ffc75",
+          startBlock: 13791613, // TBD
         },
       },
     },
