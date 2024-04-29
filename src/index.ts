@@ -1,6 +1,7 @@
 import { ponder } from "@/generated";
 
 ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
+  console.log("tracking");
   if (
     event.block.timestamp < 1714364400 ||
     event.block.timestamp > 1714969200
@@ -9,6 +10,7 @@ ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
     return;
   }
   const { ApicultureMint } = context.db;
+  console.log("found");
   const token = await ApicultureMint.upsert({
     id: event.transaction.from.toString(),
     create: {
