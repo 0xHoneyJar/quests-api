@@ -1,8 +1,13 @@
 import { ponder } from "@/generated";
 
 ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
-  if (event.block.timestamp < 1714364400 || event.block.timestamp > 1714969200)
+  if (
+    event.block.timestamp < 1714364400 ||
+    event.block.timestamp > 1714969200
+  ) {
+    console.log("out of range");
     return;
+  }
   const { ApicultureMint } = context.db;
   const token = await ApicultureMint.upsert({
     id: event.transaction.from.toString(),
@@ -13,6 +18,7 @@ ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
       quantity: current.quantity + event.args.amount,
     }),
   });
+  console.log("update");
 });
 
 ponder.on("HookVault:TokensDeposited", async ({ event, context }) => {
