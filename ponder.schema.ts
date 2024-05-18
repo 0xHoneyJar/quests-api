@@ -12,4 +12,11 @@ export default createSchema((p) => ({
   BobaRecipient: p.createTable({
     id: p.string(),
   }),
+  WagmipadRecipient: p.createTable({
+    //
+    id: p.string(),
+  }),
+  ZypherRecipient: p.createTable({
+    id: p.string(),
+  }),
 }));

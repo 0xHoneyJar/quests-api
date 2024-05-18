@@ -44,3 +44,17 @@ ponder.on("Boba:ERC20Transfer", async ({ event, context }) => {
     id: event.args.to.toString(),
   });
 });
+
+ponder.on("Wagmipad:Transfer", async ({ event, context }) => {
+  const { WagmipadRecipient } = context.db;
+  await WagmipadRecipient.upsert({
+    id: event.args.to.toString(),
+  });
+});
+
+ponder.on("Zypher:Transfer", async ({ event, context }) => {
+  const { ZypherRecipient } = context.db;
+  await ZypherRecipient.upsert({
+    id: event.args.to.toString(),
+  });
+});
