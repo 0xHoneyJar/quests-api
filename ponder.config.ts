@@ -78,8 +78,8 @@ export default createConfig({
       network: {
         berachainArtio: {
           address: "0x1F136a43101D12F98c9887D46D7cDbEFACdd573D",
-          startBlock: 1041454,
-          endBlock: 1209454,
+          startBlock: 0,
+          endBlock: 0,
         },
       },
     },
@@ -87,9 +87,9 @@ export default createConfig({
       abi: erc721Abi,
       network: {
         berachainArtio: {
-          address: "0x1F136a43101D12F98c9887D46D7cDbEFACdd573D",
-          startBlock: 1041454,
-          endBlock: 1209454,
+          address: "0xB3AFdDA99fe78C47c9EeeaDE8D1121ceC03b4806",
+          startBlock: 0,
+          endBlock: 0,
         },
       },
       filter: {
@@ -104,8 +104,8 @@ export default createConfig({
       network: {
         berachainArtio: {
           address: "0xC5E02F53006380A6705A60d7861e2210e87C0DFC",
-          startBlock: 1041454,
-          endBlock: 1209454,
+          startBlock: 0,
+          endBlock: 0,
         },
       },
       filter: {
