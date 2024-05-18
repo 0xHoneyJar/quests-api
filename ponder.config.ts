@@ -1,9 +1,10 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
-import { erc1155Abi } from "./abis/erc1155";
-import { hookVaultAbi } from "./abis/hookVault";
 import { bobaAbi } from "./abis/boba";
+import { erc1155Abi } from "./abis/erc1155";
+import { erc721Abi } from "./abis/erc721";
+import { hookVaultAbi } from "./abis/hookVault";
 
 export default createConfig({
   database: {
@@ -79,7 +80,38 @@ export default createConfig({
           address: "0x1F136a43101D12F98c9887D46D7cDbEFACdd573D",
           startBlock: 1041454,
           endBlock: 1209454,
-          maxBlockRange: 200,
+        },
+      },
+    },
+    Zypher: {
+      abi: erc721Abi,
+      network: {
+        berachainArtio: {
+          address: "0x1F136a43101D12F98c9887D46D7cDbEFACdd573D",
+          startBlock: 1041454,
+          endBlock: 1209454,
+        },
+      },
+      filter: {
+        event: "Transfer",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+    },
+    Wagmipad: {
+      abi: erc721Abi,
+      network: {
+        berachainArtio: {
+          address: "0xC5E02F53006380A6705A60d7861e2210e87C0DFC",
+          startBlock: 1041454,
+          endBlock: 1209454,
+        },
+      },
+      filter: {
+        event: "Transfer",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
         },
       },
     },
