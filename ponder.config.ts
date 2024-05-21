@@ -2,6 +2,7 @@ import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
 import { erc1155Abi } from "./abis/erc1155";
+import { erc721Abi } from "./abis/erc721";
 import { hookVaultAbi } from "./abis/hookVault";
 
 export default createConfig({
@@ -22,6 +23,10 @@ export default createConfig({
     base: {
       chainId: 8453,
       transport: http(process.env.PONDER_RPC_URL_8453),
+    },
+    optimism: {
+      chainId: 10,
+      transport: http(process.env.PONDER_RPC_URL_10),
     },
   },
   contracts: {
@@ -58,6 +63,21 @@ export default createConfig({
           address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
           startBlock: 13264923,
           endBlock: 13534940,
+        },
+      },
+    },
+    THJ101Guide: {
+      abi: erc721Abi,
+      filter: {
+        event: "Transfer",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+      network: {
+        optimism: {
+          address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
+          startBlock: 120304396,
         },
       },
     },
