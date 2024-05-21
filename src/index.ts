@@ -39,7 +39,7 @@ import { ponder } from "@/generated";
 // });
 
 ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
-  if (event.block.timestamp < 1716265200) return;
+  if (event.block.timestamp > 1716265200) return;
   const { THJ101Guide } = context.db;
   const token = await THJ101Guide.upsert({
     id: event.args.to,
