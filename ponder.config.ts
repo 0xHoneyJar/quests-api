@@ -5,11 +5,11 @@ import { bobaAbi } from "./abis/boba";
 import { erc721Abi } from "./abis/erc721";
 
 export default createConfig({
-  database: {
-    kind: "postgres",
-    schema: "public",
-    publishSchema: "indexer",
-  },
+  // database: {
+  //   kind: "postgres",
+  //   schema: "public",
+  //   publishSchema: "indexer",
+  // },
   networks: {
     ethereum: {
       chainId: 1,
@@ -25,7 +25,8 @@ export default createConfig({
     },
     berachainArtio: {
       chainId: 80085,
-      transport: http(process.env.PONDER_RPC_URL_80085),
+      transport: http(process.env.PONDER_RPC_URL_80085, { timeout: 900_000 }),
+      maxRequestsPerSecond: 20,
     },
     optimism: {
       chainId: 10,
@@ -69,34 +70,33 @@ export default createConfig({
     //     },
     //   },
     // },
-    THJ101Guide: {
-      abi: erc721Abi,
-      filter: {
-        event: "Transfer",
-        args: {
-          from: "0x0000000000000000000000000000000000000000",
-        },
-      },
-      network: {
-        optimism: {
-          address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
-          startBlock: 120304396,
-        },
-      },
-    },
+    // THJ101Guide: {
+    //   abi: erc721Abi,
+    //   filter: {
+    //     event: "Transfer",
+    //     args: {
+    //       from: "0x0000000000000000000000000000000000000000",
+    //     },
+    //   },
+    //   network: {
+    //     optimism: {
+    //       address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
+    //       startBlock: 120304396,
+    //     },
+    //   },
+    // },
     Boba: {
       abi: bobaAbi,
       filter: {
         event: "ERC20Transfer",
         args: {
-          from: "0x000000000000000000000000000000000000000",
+          from: "0x0000000000000000000000000000000000000000",
         },
       },
       network: {
         berachainArtio: {
           address: "0x1F136a43101D12F98c9887D46D7cDbEFACdd573D",
-          startBlock: 0,
-          endBlock: 0,
+          startBlock: 511216,
         },
       },
     },
@@ -105,8 +105,7 @@ export default createConfig({
       network: {
         berachainArtio: {
           address: "0xB3AFdDA99fe78C47c9EeeaDE8D1121ceC03b4806",
-          startBlock: 0,
-          endBlock: 0,
+          startBlock: 790152,
         },
       },
       filter: {
@@ -121,8 +120,7 @@ export default createConfig({
       network: {
         berachainArtio: {
           address: "0xC5E02F53006380A6705A60d7861e2210e87C0DFC",
-          startBlock: 0,
-          endBlock: 0,
+          startBlock: 1478281,
         },
       },
       filter: {
