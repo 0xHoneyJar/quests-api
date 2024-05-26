@@ -115,20 +115,5 @@ export default createConfig({
         },
       },
     },
-    Wagmipad: {
-      abi: erc721Abi,
-      network: {
-        berachainArtio: {
-          address: "0xC5E02F53006380A6705A60d7861e2210e87C0DFC",
-          startBlock: 1478281,
-        },
-      },
-      filter: {
-        event: "Transfer",
-        args: {
-          from: "0x0000000000000000000000000000000000000000",
-        },
-      },
-    },
   },
 });
