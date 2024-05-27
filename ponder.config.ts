@@ -91,7 +91,7 @@ export default createConfig({
       network: {
         base: {
           address: "0x6cfb9280767a3596ee6af887d900014a755ffc75",
-          startBlock: 10515778, // TBD
+          startBlock: 15005617, // TBD
         },
       },
     },
