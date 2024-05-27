@@ -65,21 +65,21 @@ export default createConfig({
     //     },
     //   },
     // },
-    // THJ101Guide: {
-    //   abi: erc721Abi,
-    //   filter: {
-    //     event: "Transfer",
-    //     args: {
-    //       from: "0x0000000000000000000000000000000000000000",
-    //     },
-    //   },
-    //   network: {
-    //     optimism: {
-    //       address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
-    //       startBlock: 120304396,
-    //     },
-    //   },
-    // },
+    THJ101Guide: {
+      abi: erc721Abi,
+      filter: {
+        event: "Transfer",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+      network: {
+        optimism: {
+          address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
+          startBlock: 120304396,
+        },
+      },
+    },
     Success: {
       abi: erc1155Abi,
       filter: {

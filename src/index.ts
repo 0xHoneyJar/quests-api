@@ -36,19 +36,19 @@ import { ponder } from "@/generated";
 //   });
 // });
 
-// ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
-//   if (event.block.timestamp > 1716783600) return;
-//   const { THJ101Guide } = context.db;
-//   const token = await THJ101Guide.upsert({
-//     id: event.args.to,
-//     create: {
-//       minted: true,
-//     },
-//     update: ({ current }) => ({
-//       minted: true,
-//     }),
-//   });
-// });
+ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
+  if (event.block.timestamp > 1716783600) return;
+  const { THJ101Guide } = context.db;
+  const token = await THJ101Guide.upsert({
+    id: event.args.to,
+    create: {
+      minted: true,
+    },
+    update: ({ current }) => ({
+      minted: true,
+    }),
+  });
+});
 
 ponder.on("Success:TransferSingle", async ({ event, context }) => {
   console.log("tracking");
