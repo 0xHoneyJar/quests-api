@@ -10,7 +10,6 @@ import { ponder } from "@/generated";
 //     return;
 //   }
 //   const { ApicultureMint } = context.db;
-//   console.log("found");
 //   const token = await ApicultureMint.upsert({
 //     id: event.args.to,
 //     create: {
@@ -20,7 +19,6 @@ import { ponder } from "@/generated";
 //       quantity: current.quantity + event.args.amount,
 //     }),
 //   });
-//   console.log("update");
 // });
 
 // ponder.on("HookVault:TokensDeposited", async ({ event, context }) => {
@@ -38,16 +36,37 @@ import { ponder } from "@/generated";
 //   });
 // });
 
-ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
-  if (event.block.timestamp > 1716783600) return;
-  const { THJ101Guide } = context.db;
-  const token = await THJ101Guide.upsert({
+// ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
+//   if (event.block.timestamp > 1716783600) return;
+//   const { THJ101Guide } = context.db;
+//   const token = await THJ101Guide.upsert({
+//     id: event.args.to,
+//     create: {
+//       minted: true,
+//     },
+//     update: ({ current }) => ({
+//       minted: true,
+//     }),
+//   });
+// });
+
+ponder.on("Success:TransferSingle", async ({ event, context }) => {
+  console.log("tracking");
+  if (
+    event.block.timestamp < 1716826800 ||
+    event.block.timestamp > 1717690800
+  ) {
+    console.log("out of range");
+    return;
+  }
+  const { SuccessMint } = context.db;
+  const token = await SuccessMint.upsert({
     id: event.args.to,
     create: {
-      minted: true,
+      quantity: event.args.amount,
     },
     update: ({ current }) => ({
-      minted: true,
+      quantity: current.quantity + event.args.amount,
     }),
   });
 });

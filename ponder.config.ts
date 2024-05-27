@@ -1,9 +1,8 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
-import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
-import { hookVaultAbi } from "./abis/hookVault";
+import { erc1155Abi } from "./abis/erc1155";
 
 export default createConfig({
   database: {
@@ -66,18 +65,33 @@ export default createConfig({
     //     },
     //   },
     // },
-    THJ101Guide: {
-      abi: erc721Abi,
+    // THJ101Guide: {
+    //   abi: erc721Abi,
+    //   filter: {
+    //     event: "Transfer",
+    //     args: {
+    //       from: "0x0000000000000000000000000000000000000000",
+    //     },
+    //   },
+    //   network: {
+    //     optimism: {
+    //       address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
+    //       startBlock: 120304396,
+    //     },
+    //   },
+    // },
+    Success: {
+      abi: erc1155Abi,
       filter: {
-        event: "Transfer",
+        event: "TransferSingle",
         args: {
           from: "0x0000000000000000000000000000000000000000",
         },
       },
       network: {
-        optimism: {
-          address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
-          startBlock: 120304396,
+        base: {
+          address: "0x6cfb9280767a3596ee6af887d900014a755ffc75",
+          startBlock: 10515778, // TBD
         },
       },
     },
