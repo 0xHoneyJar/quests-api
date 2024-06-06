@@ -85,7 +85,7 @@ export default createConfig({
     //     },
     //   },
     // },
-    Boba: {
+    BobaRecipient: {
       abi: bobaAbi,
       filter: {
         event: "ERC20Transfer",
@@ -100,7 +100,7 @@ export default createConfig({
         },
       },
     },
-    Zypher: {
+    ZypherRecipient: {
       abi: erc721Abi,
       network: {
         berachainArtio: {
