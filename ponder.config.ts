@@ -2,6 +2,7 @@ import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
 import { bobaAbi } from "./abis/boba";
+import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
 
 export default createConfig({
@@ -70,22 +71,22 @@ export default createConfig({
     //     },
     //   },
     // },
-    // THJ101Guide: {
-    //   abi: erc721Abi,
-    //   filter: {
-    //     event: "Transfer",
-    //     args: {
-    //       from: "0x0000000000000000000000000000000000000000",
-    //     },
-    //   },
-    //   network: {
-    //     optimism: {
-    //       address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
-    //       startBlock: 120304396,
-    //     },
-    //   },
-    // },
-    BobaRecipient: {
+    THJ101Guide: {
+      abi: erc721Abi,
+      filter: {
+        event: "Transfer",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+      network: {
+        optimism: {
+          address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
+          startBlock: 120304396,
+        },
+      },
+    },
+    Boba: {
       abi: bobaAbi,
       filter: {
         event: "ERC20Transfer",
@@ -100,7 +101,7 @@ export default createConfig({
         },
       },
     },
-    ZypherRecipient: {
+    Zypher: {
       abi: erc721Abi,
       network: {
         berachainArtio: {
@@ -112,6 +113,21 @@ export default createConfig({
         event: "Transfer",
         args: {
           from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+    },
+    Success: {
+      abi: erc1155Abi,
+      filter: {
+        event: "TransferSingle",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+      network: {
+        base: {
+          address: "0x6cfb9280767a3596ee6af887d900014a755ffc75",
+          startBlock: 15005617, // TBD
         },
       },
     },

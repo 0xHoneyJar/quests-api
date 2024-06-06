@@ -13,10 +13,14 @@ export default createSchema((p) => ({
     id: p.string(),
     minted: p.boolean(),
   }),
-  BobaRecipient: p.createTable({
+  BobaMint: p.createTable({
     id: p.string(),
   }),
-  ZypherRecipient: p.createTable({
+  ZypherMint: p.createTable({
     id: p.string(),
+  }),
+  SuccessMint: p.createTable({
+    id: p.string(),
+    quantity: p.bigint(),
   }),
 }));
