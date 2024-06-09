@@ -1,15 +1,16 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
+import { bobaAbi } from "./abis/boba";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
 
 export default createConfig({
-  database: {
-    kind: "postgres",
-    schema: "public",
-    publishSchema: "indexer",
-  },
+  // database: {
+  //   kind: "postgres",
+  //   schema: "public",
+  //   publishSchema: "indexer",
+  // },
   networks: {
     ethereum: {
       chainId: 1,
@@ -22,6 +23,11 @@ export default createConfig({
     base: {
       chainId: 8453,
       transport: http(process.env.PONDER_RPC_URL_8453),
+    },
+    berachainArtio: {
+      chainId: 80085,
+      transport: http(process.env.PONDER_RPC_URL_80085, { timeout: 900_000 }),
+      maxRequestsPerSecond: 20,
     },
     optimism: {
       chainId: 10,
@@ -77,6 +83,36 @@ export default createConfig({
         optimism: {
           address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
           startBlock: 120304396,
+        },
+      },
+    },
+    Boba: {
+      abi: bobaAbi,
+      filter: {
+        event: "ERC20Transfer",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+      network: {
+        berachainArtio: {
+          address: "0x1F136a43101D12F98c9887D46D7cDbEFACdd573D",
+          startBlock: 511216,
+        },
+      },
+    },
+    Zypher: {
+      abi: erc721Abi,
+      network: {
+        berachainArtio: {
+          address: "0xB3AFdDA99fe78C47c9EeeaDE8D1121ceC03b4806",
+          startBlock: 790152,
+        },
+      },
+      filter: {
+        event: "Transfer",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
         },
       },
     },

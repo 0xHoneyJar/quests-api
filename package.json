@@ -11,7 +11,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@ponder/core": "^0.4.31",
+    "@ponder/core": "^0.4.35",
     "@supabase/supabase-js": "^2.42.0",
     "viem": "^1.19.3"
   },

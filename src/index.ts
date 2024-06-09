@@ -36,6 +36,25 @@ import { ponder } from "@/generated";
 //   });
 // });
 
+ponder.on("Boba:ERC20Transfer", async ({ event, context }) => {
+  if (event.block.timestamp < 1711081200 || event.block.timestamp > 1711686000)
+    return;
+  const { BobaMint } = context.db;
+
+  await BobaMint.upsert({
+    id: event.args.to.toString(),
+  });
+});
+
+ponder.on("Zypher:Transfer", async ({ event, context }) => {
+  if (event.block.timestamp < 1710476400 || event.block.timestamp > 1711081200)
+    return;
+  const { ZypherMint } = context.db;
+  await ZypherMint.upsert({
+    id: event.args.to.toString(),
+  });
+});
+
 ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
   // if (event.block.timestamp > 1716783600) return;
   const { THJ101Guide } = context.db;
