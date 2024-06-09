@@ -19,8 +19,12 @@ export default createSchema((p) => ({
   ZypherMint: p.createTable({
     id: p.string(),
   }),
-  SuccessMint: p.createTable({
+  // SuccessMint: p.createTable({
+  //   id: p.string(),
+  //   quantity: p.bigint(),
+  // }),
+  HenloMint: p.createTable({
     id: p.string(),
-    quantity: p.bigint(),
+    minted: p.boolean(),
   }),
 }));
