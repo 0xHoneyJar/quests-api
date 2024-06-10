@@ -13,10 +13,10 @@ export default createSchema((p) => ({
     id: p.string(),
     minted: p.boolean(),
   }),
-  // SuccessMint: p.createTable({
-  //   id: p.string(),
-  //   quantity: p.bigint(),
-  // }),
+  SuccessMint: p.createTable({
+    id: p.string(),
+    quantity: p.bigint(),
+  }),
   HenloMint: p.createTable({
     id: p.string(),
     minted: p.boolean(),

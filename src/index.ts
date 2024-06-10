@@ -50,25 +50,25 @@ ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
   });
 });
 
-// ponder.on("Success:TransferSingle", async ({ event, context }) => {
-//   if (
-//     event.block.timestamp < 1716826800 ||
-//     event.block.timestamp > 1717690800
-//   ) {
-//     console.log("out of range");
-//     return;
-//   }
-//   const { SuccessMint } = context.db;
-//   const token = await SuccessMint.upsert({
-//     id: event.args.to,
-//     create: {
-//       quantity: event.args.amount,
-//     },
-//     update: ({ current }) => ({
-//       quantity: current.quantity + event.args.amount,
-//     }),
-//   });
-// });
+ponder.on("Success:TransferSingle", async ({ event, context }) => {
+  if (
+    event.block.timestamp < 1716826800 ||
+    event.block.timestamp > 1717690800
+  ) {
+    console.log("out of range");
+    return;
+  }
+  const { SuccessMint } = context.db;
+  const token = await SuccessMint.upsert({
+    id: event.args.to,
+    create: {
+      quantity: event.args.amount,
+    },
+    update: ({ current }) => ({
+      quantity: current.quantity + event.args.amount,
+    }),
+  });
+});
 
 ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
   if (event.block.timestamp > 1718554800) {
