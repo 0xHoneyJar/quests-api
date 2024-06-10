@@ -58,6 +58,9 @@ ponder.on("Success:TransferSingle", async ({ event, context }) => {
     console.log("out of range");
     return;
   }
+
+  if (event.args.id !== 2n) return;
+
   const { SuccessMint } = context.db;
   const token = await SuccessMint.upsert({
     id: event.args.to,
