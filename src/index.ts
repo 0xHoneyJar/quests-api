@@ -50,28 +50,28 @@ ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
   });
 });
 
-ponder.on("Success:TransferSingle", async ({ event, context }) => {
-  if (
-    event.block.timestamp < 1716826800 ||
-    event.block.timestamp > 1717690800
-  ) {
-    console.log("out of range");
-    return;
-  }
+// ponder.on("Success:TransferSingle", async ({ event, context }) => {
+//   if (
+//     event.block.timestamp < 1716826800 ||
+//     event.block.timestamp > 1717690800
+//   ) {
+//     console.log("out of range");
+//     return;
+//   }
 
-  if (event.args.id !== 2n) return;
+//   if (event.args.id !== 2n) return;
 
-  const { SuccessMint } = context.db;
-  const token = await SuccessMint.upsert({
-    id: event.args.to,
-    create: {
-      quantity: event.args.amount,
-    },
-    update: ({ current }) => ({
-      quantity: current.quantity + event.args.amount,
-    }),
-  });
-});
+//   const { SuccessMint } = context.db;
+//   const token = await SuccessMint.upsert({
+//     id: event.args.to,
+//     create: {
+//       quantity: event.args.amount,
+//     },
+//     update: ({ current }) => ({
+//       quantity: current.quantity + event.args.amount,
+//     }),
+//   });
+// });
 
 ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
   if (event.block.timestamp > 1718554800) {
@@ -84,6 +84,27 @@ ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
   const { HenloMint } = context.db;
   const token = await HenloMint.upsert({
     id: event.args.to,
+    create: {
+      minted: true,
+    },
+    update: ({ current }) => ({
+      minted: true,
+    }),
+  });
+});
+
+ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
+  if (
+    event.block.timestamp > 1719073200 ||
+    event.block.timestamp < 1718209200
+  ) {
+    console.log("out of range");
+    return;
+  }
+
+  const { BoogaBearsMint } = context.db;
+  const token = await BoogaBearsMint.upsert({
+    id: event.args.recipient,
     create: {
       minted: true,
     },

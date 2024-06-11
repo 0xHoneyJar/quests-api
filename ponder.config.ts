@@ -1,6 +1,7 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
+import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
 
@@ -107,6 +108,18 @@ export default createConfig({
         base: {
           address: "0x6cfb9280767a3596ee6af887d900014a755ffc75",
           startBlock: 15005617, // TBD
+        },
+      },
+    },
+    BoogaBears: {
+      abi: boogaBearsAbi,
+      filter: {
+        event: "TokensMinted",
+      },
+      network: {
+        arbitrum: {
+          address: "0x6Ba79f573EdFE305e7Dbd79902BC69436e197834",
+          startBlock: 220862709,
         },
       },
     },
