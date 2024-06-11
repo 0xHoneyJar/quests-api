@@ -9,14 +9,14 @@ export default createSchema((p) => ({
   //   id: p.string(), // address of user
   //   deposited: p.bigint(),
   // }),
+  SuccessMint: p.createTable({
+    id: p.string(),
+    quantity: p.bigint(),
+  }),
   THJ101Guide: p.createTable({
     id: p.string(),
     minted: p.boolean(),
   }),
-  // SuccessMint: p.createTable({
-  //   id: p.string(),
-  //   quantity: p.bigint(),
-  // }),
   HenloMint: p.createTable({
     id: p.string(),
     minted: p.boolean(),
