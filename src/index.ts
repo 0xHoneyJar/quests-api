@@ -1,5 +1,8 @@
 import { ponder } from "@/generated";
 
+// Each Zora mint is a different ID under this 1155 contract
+export const APICULTURE_ADDRESS = "0x6cfb9280767a3596ee6af887d900014a755ffc75";
+
 // ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
 //   console.log("tracking");
 //   if (
@@ -84,6 +87,27 @@ ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
   const { HenloMint } = context.db;
   const token = await HenloMint.upsert({
     id: event.args.to,
+    create: {
+      minted: true,
+    },
+    update: ({ current }) => ({
+      minted: true,
+    }),
+  });
+});
+
+ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
+  if (event.block.timestamp > 1718554800) {
+    console.log("out of range");
+    return;
+  }
+
+  if (!event.args.offer[0] || event.args.offer[0].token !== APICULTURE_ADDRESS)
+    return;
+
+  const { HenloMint } = context.db;
+  const token = await HenloMint.upsert({
+    id: event.args.recipient,
     create: {
       minted: true,
     },
