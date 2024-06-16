@@ -4,7 +4,6 @@ import { http } from "viem";
 import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
-import { seaportAbi } from "./abis/seaport";
 import { APICULTURE_ADDRESS } from "./src";
 
 export default createConfig({
@@ -118,19 +117,19 @@ export default createConfig({
         },
       },
     },
-    Seaport: {
-      abi: seaportAbi,
-      filter: {
-        event: "OrderFulfilled",
-      },
-      network: {
-        base: {
-          address: "0x0000000000000068F116a894984e2DB1123eB395",
-          startBlock: 15005617,
-          endBlock: 15890961,
-        },
-      },
-    },
+    // Seaport: {
+    //   abi: seaportAbi,
+    //   filter: {
+    //     event: "OrderFulfilled",
+    //   },
+    //   network: {
+    //     base: {
+    //       address: "0x0000000000000068F116a894984e2DB1123eB395",
+    //       startBlock: 15005617,
+    //       endBlock: 15890961,
+    //     },
+    //   },
+    // },
     BoogaBears: {
       abi: boogaBearsAbi,
       filter: {
