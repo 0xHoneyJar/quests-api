@@ -102,7 +102,11 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
     return;
   }
 
-  if (!event.args.offer[0] || event.args.offer[0].token !== APICULTURE_ADDRESS)
+  if (
+    !event.args.offer[0] ||
+    event.args.offer[0].token !== APICULTURE_ADDRESS ||
+    event.args.offer[0].amount !== 3n
+  )
     return;
 
   const { HenloMint } = context.db;
