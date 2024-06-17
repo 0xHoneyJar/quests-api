@@ -25,4 +25,8 @@ export default createSchema((p) => ({
     id: p.string(),
     minted: p.boolean(),
   }),
+  BullasMint: p.createTable({
+    id: p.string(),
+    quantity: p.bigint(),
+  }),
 }));

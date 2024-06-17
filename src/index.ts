@@ -2,6 +2,7 @@ import { ponder } from "@/generated";
 
 // Each Zora mint is a different ID under this 1155 contract
 export const APICULTURE_ADDRESS = "0x6cfb9280767a3596ee6af887d900014a755ffc75";
+export const BULLAS_ADDRESS = "0x98f6b7db312dd276b9a7bd08e3937e68e662202c";
 
 // ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
 //   console.log("tracking");
@@ -96,37 +97,53 @@ ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
   });
 });
 
-// ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
-//   if (event.block.timestamp > 1718554800) {
-//     console.log("out of range");
-//     return;
-//   }
+ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
+  if (event.block.timestamp > 1719511200) {
+    return;
+  }
 
-//   if (
-//     !event.args.offer[0] ||
-//     event.args.offer[0].token !== APICULTURE_ADDRESS ||
-//     event.args.offer[0].amount !== 3n
-//   )
-//     return;
+  const { BullasMint } = context.db;
+  const token = await BullasMint.upsert({
+    id: event.args.to,
+    create: {
+      quantity: event.args.amount,
+    },
+    update: ({ current }) => ({
+      quantity: current.quantity + event.args.amount,
+    }),
+  });
+});
 
-//   const { HenloMint } = context.db;
-//   const token = await HenloMint.upsert({
-//     id: event.args.recipient,
-//     create: {
-//       minted: true,
-//     },
-//     update: ({ current }) => ({
-//       minted: true,
-//     }),
-//   });
-// });
+ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
+  if (event.block.timestamp > 1718554800) {
+    console.log("out of range");
+    return;
+  }
+
+  if (
+    !event.args.offer[0] ||
+    event.args.offer[0].token !== APICULTURE_ADDRESS ||
+    event.args.offer[0].amount !== 3n
+  )
+    return;
+
+  const { HenloMint } = context.db;
+  const token = await HenloMint.upsert({
+    id: event.args.recipient,
+    create: {
+      minted: true,
+    },
+    update: ({ current }) => ({
+      minted: true,
+    }),
+  });
+});
 
 ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
   if (
     event.block.timestamp > 1719073200 ||
     event.block.timestamp < 1718209200
   ) {
-    console.log("out of range");
     return;
   }
 
