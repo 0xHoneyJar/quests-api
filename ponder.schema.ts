@@ -23,7 +23,7 @@ export default createSchema((p) => ({
   }),
   BoogaBearsMint: p.createTable({
     id: p.string(),
-    minted: p.boolean(),
+    quantity: p.bigint(),
   }),
   BullasMint: p.createTable({
     id: p.string(),

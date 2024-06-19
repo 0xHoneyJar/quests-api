@@ -114,30 +114,30 @@ ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
   });
 });
 
-// ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
-//   if (event.block.timestamp > 1718554800) {
-//     console.log("out of range");
-//     return;
-//   }
+ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
+  if (event.block.timestamp > 1718554800) {
+    console.log("out of range");
+    return;
+  }
 
-//   if (
-//     !event.args.offer[0] ||
-//     event.args.offer[0].token !== APICULTURE_ADDRESS ||
-//     event.args.offer[0].amount !== 3n
-//   )
-//     return;
+  if (
+    !event.args.offer[0] ||
+    event.args.offer[0].token !== APICULTURE_ADDRESS ||
+    event.args.offer[0].amount !== 3n
+  )
+    return;
 
-//   const { HenloMint } = context.db;
-//   const token = await HenloMint.upsert({
-//     id: event.args.recipient,
-//     create: {
-//       minted: true,
-//     },
-//     update: ({ current }) => ({
-//       minted: true,
-//     }),
-//   });
-// });
+  const { HenloMint } = context.db;
+  const token = await HenloMint.upsert({
+    id: event.args.recipient,
+    create: {
+      minted: true,
+    },
+    update: ({ current }) => ({
+      minted: true,
+    }),
+  });
+});
 
 ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
   if (
@@ -151,10 +151,10 @@ ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
   const token = await BoogaBearsMint.upsert({
     id: event.args.recipient,
     create: {
-      minted: true,
+      quantity: event.args.amount,
     },
     update: ({ current }) => ({
-      minted: true,
+      quantity: current.quantity + event.args.amount,
     }),
   });
 });
