@@ -123,7 +123,7 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
   if (
     !event.args.offer[0] ||
     event.args.offer[0].token !== APICULTURE_ADDRESS ||
-    event.args.offer[0].amount !== 3n
+    event.args.offer[0].identifier !== 3n
   )
     return;
 
