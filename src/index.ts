@@ -98,7 +98,7 @@ ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
 });
 
 ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
-  if (event.block.timestamp > 1719511200) {
+  if (event.block.timestamp > 1719606540) {
     return;
   }
 
@@ -115,33 +115,48 @@ ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
 });
 
 ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
-  if (event.block.timestamp > 1718554800) {
-    console.log("out of range");
-    return;
+  const firstOffer = event.args.offer[0];
+
+  // Bullas Mint
+  if (event.block.timestamp <= 1719511200) {
+    if (firstOffer && firstOffer.token === BULLAS_ADDRESS) {
+      const { BullasMint } = context.db;
+      await BullasMint.upsert({
+        id: event.args.recipient,
+        create: {
+          quantity: firstOffer.amount,
+        },
+        update: ({ current }) => ({
+          quantity: current.quantity + firstOffer.amount,
+        }),
+      });
+    }
+  } else {
+    console.log("Bullas: out of range");
   }
 
-  if (
-    !event.args.offer[0] ||
-    event.args.offer[0].token !== APICULTURE_ADDRESS ||
-    event.args.offer[0].identifier !== 3n
-  )
-    return;
-
-  const { HenloMint } = context.db;
-  const token = await HenloMint.upsert({
-    id: event.args.recipient,
-    create: {
-      minted: true,
-    },
-    update: ({ current }) => ({
-      minted: true,
-    }),
-  });
+  // Henlo Mint
+  if (event.block.timestamp <= 1718554800) {
+    if (
+      firstOffer &&
+      firstOffer.token === APICULTURE_ADDRESS &&
+      firstOffer.identifier === 3n
+    ) {
+      const { HenloMint } = context.db;
+      await HenloMint.upsert({
+        id: event.args.recipient,
+        create: { minted: true },
+        update: { minted: true },
+      });
+    }
+  } else {
+    console.log("Henlo: out of range");
+  }
 });
 
 ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
   if (
-    event.block.timestamp > 1719073200 ||
+    event.block.timestamp > 1719088140 ||
     event.block.timestamp < 1718209200
   ) {
     return;
