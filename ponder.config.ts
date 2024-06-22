@@ -114,7 +114,6 @@ export default createConfig({
         base: {
           address: APICULTURE_ADDRESS,
           startBlock: 15005617,
-          endBlock: 15890961,
         },
       },
     },
@@ -142,7 +141,6 @@ export default createConfig({
         base: {
           address: "0x0000000000000068F116a894984e2DB1123eB395",
           startBlock: 15005617,
-          endBlock: 15890961,
         },
       },
     },
