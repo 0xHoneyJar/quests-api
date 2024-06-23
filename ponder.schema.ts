@@ -25,6 +25,10 @@ export default createSchema((p) => ({
     id: p.string(),
     quantity: p.bigint(),
   }),
+  BoogaBearsRaffle: p.createTable({
+    id: p.string(),
+    quantity: p.bigint(),
+  }),
   BullasMint: p.createTable({
     id: p.string(),
     quantity: p.bigint(),

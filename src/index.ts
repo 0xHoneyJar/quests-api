@@ -15,6 +15,9 @@ const thj101Quest = quests?.find((quest) => quest.title === "THJ 101");
 const boogaBearsQuest = quests?.find(
   (quest) => quest.title === "Proof of Booga"
 );
+const boogaBearsRaffle = raffles?.find(
+  (raffle) => raffle.title === "Majestic Honey Bears"
+);
 
 // ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
 //   console.log("tracking");
@@ -166,6 +169,22 @@ ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
     boogaBearsQuest &&
     event.block.timestamp <= boogaBearsQuest.endTime &&
     event.block.timestamp >= boogaBearsQuest.startTime
+  ) {
+    const { BoogaBearsMint } = context.db;
+    const token = await BoogaBearsMint.upsert({
+      id: event.args.recipient,
+      create: {
+        quantity: event.args.amount,
+      },
+      update: ({ current }) => ({
+        quantity: current.quantity + event.args.amount,
+      }),
+    });
+  } else if (
+    boogaBearsRaffle &&
+    boogaBearsQuest &&
+    event.block.timestamp >= boogaBearsQuest.startTime &&
+    event.block.timestamp <= boogaBearsRaffle.endTime
   ) {
     const { BoogaBearsMint } = context.db;
     const token = await BoogaBearsMint.upsert({
