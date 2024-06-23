@@ -18,6 +18,8 @@ export const fetchRafflesAndQuests = async () => {
   return { raffles, quests };
 };
 
+export const { raffles, quests } = await fetchRafflesAndQuests();
+
 export default createConfig({
   database: {
     kind: "postgres",

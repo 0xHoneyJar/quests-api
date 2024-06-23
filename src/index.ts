@@ -1,12 +1,11 @@
 import { ponder } from "@/generated";
 import { isAddressEqual } from "viem";
-import { fetchRafflesAndQuests } from "../ponder.config";
+import { quests, raffles } from "../ponder.config";
 
 // Each Zora mint is a different ID under this 1155 contract
 export const APICULTURE_ADDRESS = "0x6cfb9280767a3596ee6af887d900014a755ffc75";
 export const BULLAS_ADDRESS = "0x98F6b7Db312dD276b9a7bD08e3937e68e662202C";
 
-const { raffles, quests } = await fetchRafflesAndQuests();
 const bullasQuest = quests?.find(
   (quest) => quest.title === "The Revenge of the Bullas"
 );
