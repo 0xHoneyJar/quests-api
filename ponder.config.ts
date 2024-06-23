@@ -1,11 +1,22 @@
 import { createConfig } from "@ponder/core";
 import { http } from "viem";
 
+import { createClient } from "@supabase/supabase-js";
 import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
 import { seaportAbi } from "./abis/seaport";
 import { APICULTURE_ADDRESS, BULLAS_ADDRESS } from "./src";
+import { Database } from "./types/supabase";
+
+export const fetchRafflesAndQuests = async () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+  const { data: raffles } = await supabase.from("raffles").select("*");
+  const { data: quests } = await supabase.from("quests").select("*");
+  return { raffles, quests };
+};
 
 export default createConfig({
   database: {

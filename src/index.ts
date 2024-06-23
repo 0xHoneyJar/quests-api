@@ -1,9 +1,20 @@
 import { ponder } from "@/generated";
 import { isAddressEqual } from "viem";
+import { fetchRafflesAndQuests } from "../ponder.config";
 
 // Each Zora mint is a different ID under this 1155 contract
 export const APICULTURE_ADDRESS = "0x6cfb9280767a3596ee6af887d900014a755ffc75";
 export const BULLAS_ADDRESS = "0x98F6b7Db312dD276b9a7bD08e3937e68e662202C";
+
+const { raffles, quests } = await fetchRafflesAndQuests();
+const bullasQuest = quests?.find(
+  (quest) => quest.title === "The Revenge of the Bullas"
+);
+const henloQuest = quests?.find((quest) => quest.title === "Henlo 6/9");
+const thj101Quest = quests?.find((quest) => quest.title === "THJ 101");
+const boogaBearsQuest = quests?.find(
+  (quest) => quest.title === "Proof of Booga"
+);
 
 // ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
 //   console.log("tracking");
@@ -42,7 +53,7 @@ export const BULLAS_ADDRESS = "0x98F6b7Db312dD276b9a7bD08e3937e68e662202C";
 // });
 
 ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
-  // if (event.block.timestamp > 1716783600) return;
+  // No range check because we want to track all THJ101 mints
   const { THJ101Guide } = context.db;
   const token = await THJ101Guide.upsert({
     id: event.args.to,
@@ -57,62 +68,56 @@ ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
 
 ponder.on("Success:TransferSingle", async ({ event, context }) => {
   if (
-    event.block.timestamp < 1716826800 ||
-    event.block.timestamp > 1717690800
+    thj101Quest &&
+    event.block.timestamp <= thj101Quest.endTime &&
+    event.block.timestamp >= thj101Quest.startTime &&
+    event.args.id === 2n
   ) {
-    console.log("out of range");
-    return;
+    const { SuccessMint } = context.db;
+    const token = await SuccessMint.upsert({
+      id: event.args.to,
+      create: {
+        quantity: event.args.amount,
+      },
+      update: ({ current }) => ({
+        quantity: current.quantity + event.args.amount,
+      }),
+    });
   }
-
-  if (event.args.id !== 2n) return;
-
-  const { SuccessMint } = context.db;
-  const token = await SuccessMint.upsert({
-    id: event.args.to,
-    create: {
-      quantity: event.args.amount,
-    },
-    update: ({ current }) => ({
-      quantity: current.quantity + event.args.amount,
-    }),
-  });
 });
 
 ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
-  if (event.block.timestamp > 1718554800) {
-    console.log("out of range");
-    return;
+  if (
+    henloQuest &&
+    event.block.timestamp <= henloQuest.endTime &&
+    event.args.id === 3n
+  ) {
+    const { HenloMint } = context.db;
+    const token = await HenloMint.upsert({
+      id: event.args.to,
+      create: {
+        minted: true,
+      },
+      update: ({ current }) => ({
+        minted: true,
+      }),
+    });
   }
-
-  if (event.args.id !== 3n) return;
-
-  const { HenloMint } = context.db;
-  const token = await HenloMint.upsert({
-    id: event.args.to,
-    create: {
-      minted: true,
-    },
-    update: ({ current }) => ({
-      minted: true,
-    }),
-  });
 });
 
 ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
-  if (event.block.timestamp > 1719606540) {
-    return;
+  if (bullasQuest && event.block.timestamp <= bullasQuest.endTime) {
+    const { BullasMint } = context.db;
+    const token = await BullasMint.upsert({
+      id: event.args.to,
+      create: {
+        quantity: event.args.amount,
+      },
+      update: ({ current }) => ({
+        quantity: current.quantity + event.args.amount,
+      }),
+    });
   }
-
-  const { BullasMint } = context.db;
-  const token = await BullasMint.upsert({
-    id: event.args.to,
-    create: {
-      quantity: event.args.amount,
-    },
-    update: ({ current }) => ({
-      quantity: current.quantity + event.args.amount,
-    }),
-  });
 });
 
 ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
@@ -120,7 +125,7 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
   const { BullasMint, HenloMint } = context.db;
 
   // Bullas Mint
-  if (event.block.timestamp <= 1719511200) {
+  if (bullasQuest && event.block.timestamp <= bullasQuest.endTime) {
     if (firstOffer && isAddressEqual(firstOffer.token, BULLAS_ADDRESS)) {
       await BullasMint.upsert({
         id: event.args.recipient,
@@ -137,7 +142,7 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
   }
 
   // Henlo Mint
-  if (event.block.timestamp <= 1718554800) {
+  if (henloQuest && event.block.timestamp <= henloQuest.endTime) {
     if (
       firstOffer &&
       isAddressEqual(firstOffer.token, APICULTURE_ADDRESS) &&
@@ -158,20 +163,19 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
 
 ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
   if (
-    event.block.timestamp > 1719088140 ||
-    event.block.timestamp < 1718209200
+    boogaBearsQuest &&
+    event.block.timestamp <= boogaBearsQuest.endTime &&
+    event.block.timestamp >= boogaBearsQuest.startTime
   ) {
-    return;
+    const { BoogaBearsMint } = context.db;
+    const token = await BoogaBearsMint.upsert({
+      id: event.args.recipient,
+      create: {
+        quantity: event.args.amount,
+      },
+      update: ({ current }) => ({
+        quantity: current.quantity + event.args.amount,
+      }),
+    });
   }
-
-  const { BoogaBearsMint } = context.db;
-  const token = await BoogaBearsMint.upsert({
-    id: event.args.recipient,
-    create: {
-      quantity: event.args.amount,
-    },
-    update: ({ current }) => ({
-      quantity: current.quantity + event.args.amount,
-    }),
-  });
 });
