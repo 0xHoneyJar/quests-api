@@ -1,8 +1,9 @@
 import { ponder } from "@/generated";
+import { isAddressEqual } from "viem";
 
 // Each Zora mint is a different ID under this 1155 contract
 export const APICULTURE_ADDRESS = "0x6cfb9280767a3596ee6af887d900014a755ffc75";
-export const BULLAS_ADDRESS = "0x98f6b7db312dd276b9a7bd08e3937e68e662202c";
+export const BULLAS_ADDRESS = "0x98F6b7Db312dD276b9a7bD08e3937e68e662202C";
 
 // ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
 //   console.log("tracking");
@@ -116,11 +117,11 @@ ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
 
 ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
   const firstOffer = event.args.offer[0];
+  const { BullasMint, HenloMint } = context.db;
 
   // Bullas Mint
   if (event.block.timestamp <= 1719511200) {
-    if (firstOffer && firstOffer.token === BULLAS_ADDRESS) {
-      const { BullasMint } = context.db;
+    if (firstOffer && isAddressEqual(firstOffer.token, BULLAS_ADDRESS)) {
       await BullasMint.upsert({
         id: event.args.recipient,
         create: {
@@ -139,14 +140,15 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
   if (event.block.timestamp <= 1718554800) {
     if (
       firstOffer &&
-      firstOffer.token === APICULTURE_ADDRESS &&
+      isAddressEqual(firstOffer.token, APICULTURE_ADDRESS) &&
       firstOffer.identifier === 3n
     ) {
-      const { HenloMint } = context.db;
       await HenloMint.upsert({
         id: event.args.recipient,
         create: { minted: true },
-        update: { minted: true },
+        update: ({ current }) => ({
+          minted: true,
+        }),
       });
     }
   } else {
