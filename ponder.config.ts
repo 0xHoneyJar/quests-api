@@ -127,6 +127,7 @@ export default createConfig({
         base: {
           address: APICULTURE_ADDRESS,
           startBlock: 15005617,
+          endBlock: 15890961,
         },
       },
     },
@@ -142,6 +143,7 @@ export default createConfig({
         base: {
           address: BULLAS_ADDRESS,
           startBlock: 15898404,
+          endBlock: 16283259,
         },
       },
     },
