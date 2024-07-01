@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@ponder/core':
-    specifier: ^0.4.40
-    version: 0.4.40(@types/node@20.9.0)(typescript@5.2.2)(viem@1.19.3)
+    specifier: ^0.4.41
+    version: 0.4.41(@types/node@20.9.0)(typescript@5.2.2)(viem@1.19.3)
   '@supabase/supabase-js':
     specifier: ^2.42.0
     version: 2.42.0
@@ -563,8 +563,8 @@ packages:
     dev: false
     optional: true
 
-  /@ponder/core@0.4.40(@types/node@20.9.0)(typescript@5.2.2)(viem@1.19.3):
-    resolution: {integrity: sha512-dxLocZj0jElWiGZWet2zg3Awxxdz53NY71+DN2jIzAjCt2KBJX8l5yHaAPDSbWKh18u1iZnvEVcZWsIme6Cnxw==}
+  /@ponder/core@0.4.41(@types/node@20.9.0)(typescript@5.2.2)(viem@1.19.3):
+    resolution: {integrity: sha512-yGEcp5unQ1OyR7/j5fzOfF0eTrj9JCPotRxe9mN0RKWainMl74c0gjoLYSBtUaubXX/8c7mbz8cv+8e/IfWzpA==}
     engines: {node: '>=18.14'}
     hasBin: true
     peerDependencies:
