@@ -140,7 +140,7 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
       });
     }
   } else {
-    console.log("Bullas: out of range");
+    // console.log("Bullas: out of range");
   }
 
   // Henlo Mint
@@ -159,7 +159,7 @@ ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
       });
     }
   } else {
-    console.log("Henlo: out of range");
+    // console.log("Henlo: out of range");
   }
 });
 
