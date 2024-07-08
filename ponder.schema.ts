@@ -33,4 +33,8 @@ export default createSchema((p) => ({
     id: p.string(),
     quantity: p.bigint(),
   }),
+  EggsMint: p.createTable({
+    id: p.string(),
+    quantity: p.bigint(),
+  }),
 }));

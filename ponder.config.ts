@@ -6,7 +6,7 @@ import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
 import { seaportAbi } from "./abis/seaport";
-import { APICULTURE_ADDRESS, BULLAS_ADDRESS } from "./src";
+import { APICULTURE_ADDRESS, BULLAS_ADDRESS, EGGS_ADDRESS } from "./src";
 import { Database } from "./types/supabase";
 
 export const fetchRafflesAndQuests = async () => {
@@ -112,6 +112,21 @@ export default createConfig({
           address: APICULTURE_ADDRESS,
           startBlock: 15005617,
           endBlock: 15890961,
+        },
+      },
+    },
+    Eggs: {
+      abi: erc1155Abi,
+      filter: {
+        event: "TransferSingle",
+        args: {
+          from: "0x0000000000000000000000000000000000000000",
+        },
+      },
+      network: {
+        base: {
+          address: EGGS_ADDRESS,
+          startBlock: 16798306,
         },
       },
     },

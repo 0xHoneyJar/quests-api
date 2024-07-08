@@ -1,10 +1,11 @@
 import { ponder } from "@/generated";
 import { isAddressEqual } from "viem";
-import { quests, raffles } from "../ponder.config";
+import { quests } from "../ponder.config";
 
 // Each Zora mint is a different ID under this 1155 contract
 export const APICULTURE_ADDRESS = "0x6cfb9280767a3596ee6af887d900014a755ffc75";
 export const BULLAS_ADDRESS = "0x98F6b7Db312dD276b9a7bD08e3937e68e662202C";
+export const EGGS_ADDRESS = "0x30b8c95a6e7170a1322453b47722f10fea185b0f";
 
 const bullasQuest = quests?.find(
   (quest) => quest.title === "The Revenge of the Bullas"
@@ -14,8 +15,8 @@ const thj101Quest = quests?.find((quest) => quest.title === "THJ 101");
 const boogaBearsQuest = quests?.find(
   (quest) => quest.title === "Proof of Booga"
 );
-const boogaBearsRaffle = raffles?.find(
-  (raffle) => raffle.title === "Majestic Honey Bears"
+const janiLoveEggsQuest = quests?.find(
+  (quest) => quest.title === "Jani Love Eggs"
 );
 
 // ponder.on("Zora1155:TransferSingle", async ({ event, context }) => {
@@ -66,6 +67,25 @@ ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
       minted: true,
     }),
   });
+});
+
+ponder.on("Eggs:TransferSingle", async ({ event, context }) => {
+  if (
+    janiLoveEggsQuest &&
+    event.block.timestamp <= janiLoveEggsQuest.endTime &&
+    event.block.timestamp >= janiLoveEggsQuest.startTime
+  ) {
+    const { EggsMint } = context.db;
+    const token = await EggsMint.upsert({
+      id: event.args.to,
+      create: {
+        quantity: event.args.amount,
+      },
+      update: ({ current }) => ({
+        quantity: current.quantity + event.args.amount,
+      }),
+    });
+  }
 });
 
 ponder.on("Success:TransferSingle", async ({ event, context }) => {
@@ -180,10 +200,9 @@ ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
       }),
     });
   } else if (
-    boogaBearsRaffle &&
     boogaBearsQuest &&
     event.block.timestamp >= boogaBearsQuest.startTime &&
-    event.block.timestamp <= boogaBearsRaffle.endTime
+    event.block.timestamp <= boogaBearsQuest.endTime
   ) {
     const { BoogaBearsMint } = context.db;
     const token = await BoogaBearsMint.upsert({
