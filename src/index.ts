@@ -142,46 +142,46 @@ ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
   }
 });
 
-ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
-  const firstOffer = event.args.offer[0];
-  const { BullasMint, HenloMint } = context.db;
+// ponder.on("Seaport:OrderFulfilled", async ({ event, context }) => {
+//   const firstOffer = event.args.offer[0];
+//   const { BullasMint, HenloMint } = context.db;
 
-  // Bullas Mint
-  if (bullasQuest && event.block.timestamp <= bullasQuest.endTime) {
-    if (firstOffer && isAddressEqual(firstOffer.token, BULLAS_ADDRESS)) {
-      await BullasMint.upsert({
-        id: event.args.recipient,
-        create: {
-          quantity: firstOffer.amount,
-        },
-        update: ({ current }) => ({
-          quantity: current.quantity + firstOffer.amount,
-        }),
-      });
-    }
-  } else {
-    // console.log("Bullas: out of range");
-  }
+//   // Bullas Mint
+//   if (bullasQuest && event.block.timestamp <= bullasQuest.endTime) {
+//     if (firstOffer && isAddressEqual(firstOffer.token, BULLAS_ADDRESS)) {
+//       await BullasMint.upsert({
+//         id: event.args.recipient,
+//         create: {
+//           quantity: firstOffer.amount,
+//         },
+//         update: ({ current }) => ({
+//           quantity: current.quantity + firstOffer.amount,
+//         }),
+//       });
+//     }
+//   } else {
+//     // console.log("Bullas: out of range");
+//   }
 
-  // Henlo Mint
-  if (henloQuest && event.block.timestamp <= henloQuest.endTime) {
-    if (
-      firstOffer &&
-      isAddressEqual(firstOffer.token, APICULTURE_ADDRESS) &&
-      firstOffer.identifier === 3n
-    ) {
-      await HenloMint.upsert({
-        id: event.args.recipient,
-        create: { minted: true },
-        update: ({ current }) => ({
-          minted: true,
-        }),
-      });
-    }
-  } else {
-    // console.log("Henlo: out of range");
-  }
-});
+//   // Henlo Mint
+//   if (henloQuest && event.block.timestamp <= henloQuest.endTime) {
+//     if (
+//       firstOffer &&
+//       isAddressEqual(firstOffer.token, APICULTURE_ADDRESS) &&
+//       firstOffer.identifier === 3n
+//     ) {
+//       await HenloMint.upsert({
+//         id: event.args.recipient,
+//         create: { minted: true },
+//         update: ({ current }) => ({
+//           minted: true,
+//         }),
+//       });
+//     }
+//   } else {
+//     // console.log("Henlo: out of range");
+//   }
+// });
 
 ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
   if (

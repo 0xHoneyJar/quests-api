@@ -162,18 +162,18 @@ export default createConfig({
         },
       },
     },
-    Seaport: {
-      abi: seaportAbi,
-      filter: {
-        event: "OrderFulfilled",
-      },
-      network: {
-        base: {
-          address: "0x0000000000000068F116a894984e2DB1123eB395",
-          startBlock: 15005617,
-        },
-      },
-    },
+    // Seaport: {
+    //   abi: seaportAbi,
+    //   filter: {
+    //     event: "OrderFulfilled",
+    //   },
+    //   network: {
+    //     base: {
+    //       address: "0x0000000000000068F116a894984e2DB1123eB395",
+    //       startBlock: 15005617,
+    //     },
+    //   },
+    // },
     BoogaBears: {
       abi: boogaBearsAbi,
       filter: {
