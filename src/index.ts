@@ -215,3 +215,40 @@ ponder.on("BoogaBears:TokensMinted", async ({ event, context }) => {
     });
   }
 });
+
+ponder.on("Ticket:Transfer", async ({ event, context }) => {
+  const { TurboQuest } = context.db;
+
+  if (event.block.timestamp <= 1720461600) {
+    await TurboQuest.upsert({
+      id: event.args.to,
+      create: {
+        minted: true,
+        swapped: false,
+      },
+      update: {
+        minted: true,
+      },
+    });
+  }
+});
+
+ponder.on("UniswapV3Pool:Swap", async ({ event, context }) => {
+  const { TurboQuest } = context.db;
+
+  if (
+    event.block.timestamp >= 1719597600 &&
+    event.block.timestamp <= 1720461600
+  ) {
+    await TurboQuest.upsert({
+      id: event.args.recipient,
+      create: {
+        minted: false,
+        swapped: true,
+      },
+      update: {
+        swapped: true,
+      },
+    });
+  }
+});

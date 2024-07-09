@@ -37,4 +37,9 @@ export default createSchema((p) => ({
     id: p.string(),
     quantity: p.bigint(),
   }),
+  TurboQuest: p.createTable({
+    id: p.string(),
+    minted: p.boolean(),
+    swapped: p.boolean(),
+  }),
 }));

@@ -1,5 +1,12 @@
 import { ponder } from "@/generated";
-import { BullasMint, EggsMint, eq, HenloMint, SuccessMint } from "ponder:db";
+import {
+  BullasMint,
+  EggsMint,
+  eq,
+  HenloMint,
+  SuccessMint,
+  TurboQuest,
+} from "ponder:db";
 
 ponder.get("/quest-completion", async (c) => {
   const db = c.get("db");
@@ -41,7 +48,19 @@ ponder.get("/quest-completion", async (c) => {
         })
         .from(EggsMint)
         .where(eq(EggsMint.id, address));
+    case "Run It Back Turbo":
+      result = await db
+        .select({
+          minted: TurboQuest.minted,
+          swapped: TurboQuest.swapped,
+        })
+        .from(TurboQuest)
+        .where(eq(TurboQuest.id, address));
   }
 
-  return c.json({ quantity: result?.[0].quantity || 0 });
+  return c.json({
+    quantity: result?.[0].quantity || 0,
+    minted: result?.[0].minted,
+    swapped: result?.[0].swapped,
+  });
 });

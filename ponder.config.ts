@@ -1,10 +1,12 @@
 import { createConfig } from "@ponder/core";
-import { http } from "viem";
+import { http, zeroAddress } from "viem";
 
 import { createClient } from "@supabase/supabase-js";
 import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
+import { ticketV2Abi } from "./abis/ticket";
+import { uniswapV3PoolAbi } from "./abis/uniswap";
 import { APICULTURE_ADDRESS, BULLAS_ADDRESS, EGGS_ADDRESS } from "./src";
 import { Database } from "./types/supabase";
 
@@ -45,8 +47,33 @@ export default createConfig({
       chainId: 10,
       transport: http(process.env.PONDER_RPC_URL_10),
     },
+    bartio: {
+      chainId: 80084,
+      transport: http(process.env.PONDER_RPC_URL_80084),
+    },
   },
   contracts: {
+    UniswapV3Pool: {
+      network: "bartio",
+      abi: uniswapV3PoolAbi,
+      address: "0x8a960A6e5f224D0a88BaD10463bDAD161b68C144",
+      startBlock: 746193,
+      filter: {
+        event: "Swap",
+      },
+    },
+    Ticket: {
+      network: "bartio",
+      abi: ticketV2Abi,
+      address: "0xBd10c70e94aCA5c0b9Eb434A62f2D8444Ec0649D",
+      startBlock: 607983,
+      filter: {
+        event: "Transfer",
+        args: {
+          from: zeroAddress,
+        },
+      },
+    },
     // Zora1155: {
     //   abi: erc1155Abi,
     //   filter: {
@@ -88,7 +115,7 @@ export default createConfig({
       filter: {
         event: "Transfer",
         args: {
-          from: "0x0000000000000000000000000000000000000000",
+          from: zeroAddress,
         },
       },
       network: {
@@ -103,7 +130,7 @@ export default createConfig({
       filter: {
         event: "TransferSingle",
         args: {
-          from: "0x0000000000000000000000000000000000000000",
+          from: zeroAddress,
         },
       },
       network: {
@@ -119,7 +146,7 @@ export default createConfig({
       filter: {
         event: "TransferSingle",
         args: {
-          from: "0x0000000000000000000000000000000000000000",
+          from: zeroAddress,
         },
       },
       network: {
@@ -134,7 +161,7 @@ export default createConfig({
       filter: {
         event: "TransferSingle",
         args: {
-          from: "0x0000000000000000000000000000000000000000",
+          from: zeroAddress,
         },
       },
       network: {
@@ -150,7 +177,7 @@ export default createConfig({
       filter: {
         event: "TransferSingle",
         args: {
-          from: "0x0000000000000000000000000000000000000000",
+          from: zeroAddress,
         },
       },
       network: {
