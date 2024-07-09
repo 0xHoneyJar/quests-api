@@ -9,7 +9,7 @@ import {
   TurboQuest,
 } from "ponder:db";
 
-ponder.get("/quest-completion", async (c) => {
+ponder.get("/quest", async (c) => {
   const db = c.get("db");
   const questName = c.req.query("quest");
   const address = c.req.query("address");
@@ -66,4 +66,4 @@ ponder.get("/quest-completion", async (c) => {
   });
 });
 
-ponder.get(graphql());
+ponder.use("/graphql", graphql());
