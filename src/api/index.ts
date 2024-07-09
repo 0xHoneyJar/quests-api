@@ -1,4 +1,5 @@
 import { ponder } from "@/generated";
+import { graphql } from "@ponder/core";
 import {
   BullasMint,
   EggsMint,
@@ -64,3 +65,5 @@ ponder.get("/quest-completion", async (c) => {
     swapped: result?.[0].swapped,
   });
 });
+
+ponder.get(graphql());
