@@ -1,5 +1,4 @@
 import { ponder } from "@/generated";
-import { isAddressEqual } from "viem";
 import { quests } from "../ponder.config";
 
 // Each Zora mint is a different ID under this 1155 contract
@@ -61,10 +60,10 @@ ponder.on("THJ101Guide:Transfer", async ({ event, context }) => {
   const token = await THJ101Guide.upsert({
     id: event.args.to,
     create: {
-      minted: true,
+      quantity: 1n,
     },
     update: ({ current }) => ({
-      minted: true,
+      quantity: current.quantity + 1n,
     }),
   });
 });
@@ -118,10 +117,10 @@ ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
     const token = await HenloMint.upsert({
       id: event.args.to,
       create: {
-        minted: true,
+        quantity: event.args.amount,
       },
       update: ({ current }) => ({
-        minted: true,
+        quantity: current.quantity + event.args.amount,
       }),
     });
   }

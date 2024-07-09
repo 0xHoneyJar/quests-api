@@ -15,11 +15,11 @@ export default createSchema((p) => ({
   }),
   THJ101Guide: p.createTable({
     id: p.string(),
-    minted: p.boolean(),
+    quantity: p.bigint(),
   }),
   HenloMint: p.createTable({
     id: p.string(),
-    minted: p.boolean(),
+    quantity: p.bigint(),
   }),
   BoogaBearsMint: p.createTable({
     id: p.string(),

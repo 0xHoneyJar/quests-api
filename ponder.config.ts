@@ -5,7 +5,6 @@ import { createClient } from "@supabase/supabase-js";
 import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
-import { seaportAbi } from "./abis/seaport";
 import { APICULTURE_ADDRESS, BULLAS_ADDRESS, EGGS_ADDRESS } from "./src";
 import { Database } from "./types/supabase";
 
@@ -21,14 +20,14 @@ export const fetchRafflesAndQuests = async () => {
 export const { raffles, quests } = await fetchRafflesAndQuests();
 
 export default createConfig({
-  database: {
-    kind: "postgres",
-    schema: "public",
-    publishSchema: "indexer",
-  },
-  options: {
-    maxHealthcheckDuration: 36000, // 10 hours
-  },
+  // database: {
+  //   kind: "postgres",
+  //   schema: "public",
+  //   publishSchema: "indexer",
+  // },
+  // options: {
+  //   maxHealthcheckDuration: 36000, // 10 hours
+  // },
   networks: {
     ethereum: {
       chainId: 1,
