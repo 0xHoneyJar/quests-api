@@ -1,13 +1,5 @@
 import { ponder } from "@/generated";
 import { graphql } from "@ponder/core";
-import {
-  BullasMint,
-  EggsMint,
-  eq,
-  HenloMint,
-  SuccessMint,
-  TurboQuest,
-} from "ponder:db";
 
 ponder.get("/quest", async (c) => {
   const db = c.get("db");
@@ -22,41 +14,25 @@ ponder.get("/quest", async (c) => {
 
   switch (questName) {
     case "THJ 101":
-      result = await db
-        .select({
-          quantity: SuccessMint.quantity,
-        })
-        .from(SuccessMint)
-        .where(eq(SuccessMint.id, address));
+      result = await db.SuccessMint.findUnique({
+        id: address,
+      });
     case "The Revenge of the Bullas":
-      result = await db
-        .select({
-          quantity: BullasMint.quantity,
-        })
-        .from(BullasMint)
-        .where(eq(BullasMint.id, address));
+      result = await db.BullasMint.findUnique({
+        id: address,
+      });
     case "Henlo 6/9":
-      result = await db
-        .select({
-          quantity: HenloMint.quantity,
-        })
-        .from(HenloMint)
-        .where(eq(HenloMint.id, address));
+      result = await db.HenloMint.findUnique({
+        id: address,
+      });
     case "Jani Love Eggs":
-      result = await db
-        .select({
-          quantity: EggsMint.quantity,
-        })
-        .from(EggsMint)
-        .where(eq(EggsMint.id, address));
+      result = await db.EggsMint.findUnique({
+        id: address,
+      });
     case "Run It Back Turbo":
-      result = await db
-        .select({
-          minted: TurboQuest.minted,
-          swapped: TurboQuest.swapped,
-        })
-        .from(TurboQuest)
-        .where(eq(TurboQuest.id, address));
+      result = await db.TurboQuest.findUnique({
+        id: address,
+      });
   }
 
   return c.json({
