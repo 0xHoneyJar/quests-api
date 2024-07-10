@@ -3,7 +3,7 @@ import { graphql } from "@ponder/core";
 
 ponder.get("/quest", async (c) => {
   const db = c.get("db");
-  const questName = c.req.query("quest");
+  const questName = c.req.query("name");
   const address = c.req.query("address");
 
   if (!questName || !address) {
