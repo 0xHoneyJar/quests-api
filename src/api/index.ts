@@ -16,6 +16,10 @@ ponder.get("/quest", async (c) => {
 
   switch (questName) {
     case "THJ 101":
+      result = await db.THJ101Guide.findUnique({
+        id: address,
+      });
+    case "Ours de la Renaissance":
       result = await db.SuccessMint.findUnique({
         id: address,
       });
