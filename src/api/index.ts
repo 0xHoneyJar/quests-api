@@ -6,6 +6,8 @@ ponder.get("/quest", async (c) => {
   const questName = c.req.query("name");
   const address = c.req.query("address");
 
+  console.log(questName, address);
+
   if (!questName || !address) {
     return c.json({ error: "Quest name and address are required" }, 400);
   }
@@ -35,10 +37,12 @@ ponder.get("/quest", async (c) => {
       });
   }
 
+  console.log(result);
+
   return c.json({
-    quantity: result?.[0].quantity || 0,
-    minted: result?.[0].minted,
-    swapped: result?.[0].swapped,
+    quantity: result?.quantity,
+    minted: result?.minted,
+    swapped: result?.swapped,
   });
 });
 
