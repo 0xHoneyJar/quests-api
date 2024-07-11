@@ -50,7 +50,7 @@ ponder.get("/quest", async (c) => {
   console.log(result);
 
   return c.json({
-    quantity: result?.quantity,
+    quantity: Number(result?.quantity),
     minted: result?.minted,
     swapped: result?.swapped,
   });
