@@ -1,6 +1,44 @@
 import { ponder } from "@/generated";
 import { graphql } from "@ponder/core";
 
+const questDbMap = {
+  "THJ 101": "THJ101Guide",
+  "Ours de la Renaissance": "SuccessMint",
+  "The Revenge of the Bullas": "BullasMint",
+  "Henlo 6/9": "HenloMint",
+  "Jani Love Eggs": "EggsMint",
+  "Run It Back Turbo": "TurboQuest",
+};
+
+const getQuestResult = async (
+  db: any,
+  questName: string,
+  address?: string,
+  options?: {
+    limit?: number;
+    before?: string;
+    after?: string;
+  }
+) => {
+  const dbName = questDbMap[questName as keyof typeof questDbMap];
+  if (!dbName) {
+    throw new Error("Invalid quest name");
+  }
+
+  if (address) {
+    return await db[dbName].findUnique({ id: address });
+  } else {
+    const { limit = 50, before, after } = options || {};
+    return await db[dbName].findMany({
+      where: {},
+      orderBy: { id: "asc" },
+      limit: Math.min(limit, 1000),
+      ...(before && { before }),
+      ...(after && { after }),
+    });
+  }
+};
+
 ponder.get("/quest", async (c) => {
   const db = c.get("db");
   const questName = c.req.query("name");
@@ -12,48 +50,48 @@ ponder.get("/quest", async (c) => {
     return c.json({ error: "Quest name and address are required" }, 400);
   }
 
-  let result: any;
+  try {
+    const result = await getQuestResult(db, questName, address);
+    console.log(result);
 
-  switch (questName) {
-    case "THJ 101":
-      result = await db.THJ101Guide.findUnique({
-        id: address,
-      });
-      break;
-    case "Ours de la Renaissance":
-      result = await db.SuccessMint.findUnique({
-        id: address,
-      });
-      break;
-    case "The Revenge of the Bullas":
-      result = await db.BullasMint.findUnique({
-        id: address,
-      });
-      break;
-    case "Henlo 6/9":
-      result = await db.HenloMint.findUnique({
-        id: address,
-      });
-      break;
-    case "Jani Love Eggs":
-      result = await db.EggsMint.findUnique({
-        id: address,
-      });
-      break;
-    case "Run It Back Turbo":
-      result = await db.TurboQuest.findUnique({
-        id: address,
-      });
-      break;
+    return c.json({
+      quantity: Number(result?.quantity),
+      minted: result?.minted,
+      swapped: result?.swapped,
+    });
+  } catch (error) {
+    return c.json({ error: (error as Error).message }, 400);
+  }
+});
+
+ponder.get("/quest/:questName", async (c) => {
+  const db = c.get("db");
+  const questName = c.req.param("questName");
+  const limit = Number(c.req.query("limit")) || 50;
+  const before = c.req.query("before");
+  const after = c.req.query("after");
+
+  if (!questName) {
+    return c.json({ error: "Quest name is required" }, 400);
   }
 
-  console.log(result);
+  try {
+    const results = await getQuestResult(db, questName, undefined, {
+      limit,
+      before,
+      after,
+    });
+    const lastItem = results[results.length - 1];
+    const nextCursor = lastItem ? lastItem.id : null;
 
-  return c.json({
-    quantity: Number(result?.quantity),
-    minted: result?.minted,
-    swapped: result?.swapped,
-  });
+    return c.json({
+      data: results,
+      nextCursor,
+      hasMore: results.length === limit,
+    });
+  } catch (error) {
+    return c.json({ error: (error as Error).message }, 400);
+  }
 });
 
 ponder.use("/graphql", graphql());
