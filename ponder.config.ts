@@ -27,9 +27,9 @@ export default createConfig({
   //   schema: "public",
   //   publishSchema: "indexer",
   // },
-  // options: {
-  //   maxHealthcheckDuration: 36000, // 10 hours
-  // },
+  options: {
+    maxHealthcheckDuration: 3600, // 1 hour
+  },
   networks: {
     ethereum: {
       chainId: 1,

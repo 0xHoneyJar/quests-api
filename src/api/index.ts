@@ -19,26 +19,32 @@ ponder.get("/quest", async (c) => {
       result = await db.THJ101Guide.findUnique({
         id: address,
       });
+      break;
     case "Ours de la Renaissance":
       result = await db.SuccessMint.findUnique({
         id: address,
       });
+      break;
     case "The Revenge of the Bullas":
       result = await db.BullasMint.findUnique({
         id: address,
       });
+      break;
     case "Henlo 6/9":
       result = await db.HenloMint.findUnique({
         id: address,
       });
+      break;
     case "Jani Love Eggs":
       result = await db.EggsMint.findUnique({
         id: address,
       });
+      break;
     case "Run It Back Turbo":
       result = await db.TurboQuest.findUnique({
         id: address,
       });
+      break;
   }
 
   console.log(result);
