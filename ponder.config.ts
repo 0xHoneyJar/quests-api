@@ -184,7 +184,6 @@ export default createConfig({
         base: {
           address: BULLAS_ADDRESS,
           startBlock: 15898404,
-          endBlock: 16283259,
         },
       },
     },
