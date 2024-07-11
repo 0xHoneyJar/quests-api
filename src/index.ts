@@ -117,7 +117,7 @@ ponder.on("Henlo:TransferSingle", async ({ event, context }) => {
 });
 
 ponder.on("Bullas:TransferSingle", async ({ event, context }) => {
-  if (event.block.timestamp <= 1718647200) {
+  if (event.block.timestamp <= 1721160000) {
     const { BullasMint } = context.db;
     const token = await BullasMint.upsert({
       id: event.args.to,
