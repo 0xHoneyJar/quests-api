@@ -9,6 +9,7 @@ import { ticketV2Abi } from "./abis/ticket";
 import { uniswapV3PoolAbi } from "./abis/uniswap";
 import { APICULTURE_ADDRESS, BULLAS_ADDRESS, EGGS_ADDRESS } from "./src";
 import { Database } from "./types/supabase";
+import { seaportAbi } from "./abis/seaport";
 
 export const fetchRafflesAndQuests = async () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -28,7 +29,7 @@ export default createConfig({
   //   publishSchema: "indexer",
   // },
   options: {
-    maxHealthcheckDuration: 7200, // 1 hour
+    maxHealthcheckDuration: 10800, // 3 hours
   },
   networks: {
     ethereum: {
@@ -187,18 +188,18 @@ export default createConfig({
         },
       },
     },
-    // Seaport: {
-    //   abi: seaportAbi,
-    //   filter: {
-    //     event: "OrderFulfilled",
-    //   },
-    //   network: {
-    //     base: {
-    //       address: "0x0000000000000068F116a894984e2DB1123eB395",
-    //       startBlock: 15005617,
-    //     },
-    //   },
-    // },
+    Seaport: {
+      abi: seaportAbi,
+      filter: {
+        event: "OrderFulfilled",
+      },
+      network: {
+        base: {
+          address: "0x0000000000000068F116a894984e2DB1123eB395",
+          startBlock: 15005617,
+        },
+      },
+    },
     BoogaBears: {
       abi: boogaBearsAbi,
       filter: {
