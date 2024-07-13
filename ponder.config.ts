@@ -5,11 +5,11 @@ import { createClient } from "@supabase/supabase-js";
 import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
 import { erc721Abi } from "./abis/erc721";
+import { seaportAbi } from "./abis/seaport";
 import { ticketV2Abi } from "./abis/ticket";
 import { uniswapV3PoolAbi } from "./abis/uniswap";
 import { APICULTURE_ADDRESS, BULLAS_ADDRESS, EGGS_ADDRESS } from "./src";
 import { Database } from "./types/supabase";
-import { seaportAbi } from "./abis/seaport";
 
 export const fetchRafflesAndQuests = async () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -29,7 +29,7 @@ export default createConfig({
   //   publishSchema: "indexer",
   // },
   options: {
-    maxHealthcheckDuration: 10800, // 3 hours
+    maxHealthcheckDuration: 36000, // 10 hours
   },
   networks: {
     ethereum: {
