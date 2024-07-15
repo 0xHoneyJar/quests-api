@@ -42,4 +42,8 @@ export default createSchema((p) => ({
     minted: p.boolean(),
     swapped: p.boolean(),
   }),
+  HookedMint: p.createTable({
+    id: p.string(),
+    quantity: p.bigint(),
+  }),
 }));

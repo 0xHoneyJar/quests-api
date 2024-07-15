@@ -5,6 +5,7 @@ import { isAddressEqual } from "viem";
 export const APICULTURE_ADDRESS = "0x6cfb9280767a3596ee6af887d900014a755ffc75";
 export const BULLAS_ADDRESS = "0x98F6b7Db312dD276b9a7bD08e3937e68e662202C";
 export const EGGS_ADDRESS = "0x30b8c95a6e7170a1322453b47722f10fea185b0f";
+export const HOOK_ADDRESS = "0x672a1ad989fae860d58202a65b78306793a8c0c9";
 
 // const bullasQuest = quests?.find(
 //   (quest) => quest.title === "The Revenge of the Bullas"
@@ -224,6 +225,21 @@ ponder.on("UniswapV3Pool:Swap", async ({ event, context }) => {
       update: {
         swapped: true,
       },
+    });
+  }
+});
+
+ponder.on("Hooked:TransferSingle", async ({ event, context }) => {
+  if (event.block.timestamp <= 1721757600) {
+    const { HookedMint } = context.db;
+    const token = await HookedMint.upsert({
+      id: event.args.to,
+      create: {
+        quantity: event.args.amount,
+      },
+      update: ({ current }) => ({
+        quantity: current.quantity + event.args.amount,
+      }),
     });
   }
 });

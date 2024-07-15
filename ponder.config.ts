@@ -8,7 +8,12 @@ import { erc721Abi } from "./abis/erc721";
 import { seaportAbi } from "./abis/seaport";
 import { ticketV2Abi } from "./abis/ticket";
 import { uniswapV3PoolAbi } from "./abis/uniswap";
-import { APICULTURE_ADDRESS, BULLAS_ADDRESS, EGGS_ADDRESS } from "./src";
+import {
+  APICULTURE_ADDRESS,
+  BULLAS_ADDRESS,
+  EGGS_ADDRESS,
+  HOOK_ADDRESS,
+} from "./src";
 import { Database } from "./types/supabase";
 
 export const fetchRafflesAndQuests = async () => {
@@ -209,6 +214,21 @@ export default createConfig({
         arbitrum: {
           address: "0x6Ba79f573EdFE305e7Dbd79902BC69436e197834",
           startBlock: 220862709,
+        },
+      },
+    },
+    Hooked: {
+      abi: erc1155Abi,
+      filter: {
+        event: "TransferSingle",
+        args: {
+          from: zeroAddress,
+        },
+      },
+      network: {
+        base: {
+          address: HOOK_ADDRESS,
+          startBlock: 17031364,
         },
       },
     },

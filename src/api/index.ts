@@ -81,6 +81,9 @@ ponder.get("/quest/:questName", async (c) => {
       before,
       after,
     });
+
+    console.log(results);
+
     const lastItem = results[results.length - 1];
     const nextCursor = lastItem ? lastItem.id : null;
 
