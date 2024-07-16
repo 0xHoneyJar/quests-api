@@ -8,6 +8,7 @@ const questDbMap = {
   "Henlo 6/9": "HenloMint",
   "Jani Love Eggs": "EggsMint",
   "Run It Back Turbo": "TurboQuest",
+  "Class Is In Session": "HookedMint",
 };
 
 const getQuestResult = async (
