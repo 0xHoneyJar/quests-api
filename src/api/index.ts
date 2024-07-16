@@ -83,13 +83,8 @@ ponder.get("/quest/:questName", async (c) => {
       after,
     });
 
-    console.log(results);
-
-    const lastItem = results[results.length - 1];
-    const nextCursor = lastItem ? lastItem.id : null;
-
     // Convert BigInt values to strings
-    const serializedResults = results.map((item: any) => ({
+    const serializedResults = results.items.map((item: any) => ({
       ...item,
       quantity: item.quantity?.toString(),
       // Add other BigInt fields here if needed
@@ -97,8 +92,8 @@ ponder.get("/quest/:questName", async (c) => {
 
     return c.json({
       data: serializedResults,
-      nextCursor,
-      hasMore: results.length === limit,
+      nextCursor: results.endCursor,
+      hasMore: results.hasNextPage,
     });
   } catch (error) {
     return c.json({ error: (error as Error).message }, 400);
