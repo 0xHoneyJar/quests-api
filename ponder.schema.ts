@@ -1,49 +1,24 @@
 import { createSchema } from "@ponder/core";
 
 export default createSchema((p) => ({
-  // ApicultureMint: p.createTable({
-  //   id: p.string(),
-  //   quantity: p.bigint(),
-  // }),
-  // HookDeposit: p.createTable({
-  //   id: p.string(), // address of user
-  //   deposited: p.bigint(),
-  // }),
-  SuccessMint: p.createTable({
+  QuestType: p.createEnum(["ERC721", "ERC1155", "ERC20"]),
+  User: p.createTable({
     id: p.string(),
-    quantity: p.bigint(),
+    questMints: p.many("UserQuestMint.userId"),
   }),
-  THJ101Guide: p.createTable({
+  UserQuestMint: p.createTable({
     id: p.string(),
-    quantity: p.bigint(),
+    userId: p.string().references("User.id"),
+    questId: p.string().references("Quest.id"),
+    amountMinted: p.bigint(),
   }),
-  HenloMint: p.createTable({
+  Quest: p.createTable({
     id: p.string(),
-    quantity: p.bigint(),
-  }),
-  BoogaBearsMint: p.createTable({
-    id: p.string(),
-    quantity: p.bigint(),
-  }),
-  BoogaBearsRaffle: p.createTable({
-    id: p.string(),
-    quantity: p.bigint(),
-  }),
-  BullasMint: p.createTable({
-    id: p.string(),
-    quantity: p.bigint(),
-  }),
-  EggsMint: p.createTable({
-    id: p.string(),
-    quantity: p.bigint(),
-  }),
-  TurboQuest: p.createTable({
-    id: p.string(),
-    minted: p.boolean(),
-    swapped: p.boolean(),
-  }),
-  HookedMint: p.createTable({
-    id: p.string(),
-    quantity: p.bigint(),
+    name: p.string(),
+    type: p.enum("QuestType"),
+    startTime: p.bigint(),
+    endTime: p.bigint(),
+    tokenAddress: p.string(),
+    tokenIds: p.string(),
   }),
 }));

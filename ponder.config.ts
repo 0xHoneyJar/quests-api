@@ -1,19 +1,11 @@
 import { createConfig } from "@ponder/core";
-import { http, zeroAddress } from "viem";
+import { http, parseAbiItem, zeroAddress } from "viem";
 
 import { createClient } from "@supabase/supabase-js";
-import { boogaBearsAbi } from "./abis/boogaBears";
 import { erc1155Abi } from "./abis/erc1155";
+import { erc20Abi } from "./abis/erc20";
 import { erc721Abi } from "./abis/erc721";
-import { seaportAbi } from "./abis/seaport";
-import { ticketV2Abi } from "./abis/ticket";
-import { uniswapV3PoolAbi } from "./abis/uniswap";
-import {
-  APICULTURE_ADDRESS,
-  BULLAS_ADDRESS,
-  EGGS_ADDRESS,
-  HOOK_ADDRESS,
-} from "./src";
+import { questsFactoryAbi } from "./abis/questsFactory";
 import { Database } from "./types/supabase";
 
 export const fetchRafflesAndQuests = async () => {
@@ -59,176 +51,61 @@ export default createConfig({
     },
   },
   contracts: {
-    UniswapV3Pool: {
+    QuestFactory: {
       network: "bartio",
-      abi: uniswapV3PoolAbi,
-      address: "0x8a960A6e5f224D0a88BaD10463bDAD161b68C144",
-      startBlock: 746193,
-      filter: {
-        event: "Swap",
-      },
+      abi: questsFactoryAbi,
+      address: "0x200884834a3a0a158d603C873b5F06Dd033f4fFc", // Replace with actual address
+      startBlock: 1629785, // Replace with actual start block
     },
-    Ticket: {
+    ERC721Quest: {
       network: "bartio",
-      abi: ticketV2Abi,
-      address: "0xBd10c70e94aCA5c0b9Eb434A62f2D8444Ec0649D",
-      startBlock: 607983,
+      abi: erc721Abi, // You'll need to define this ABI
+      factory: {
+        address: "0x72c1D670a336602bbfca6457163F291A596eCDdC", // Same as QuestFactory address
+        event: parseAbiItem(
+          "event ERC721QuestDeployed(address indexed contractAddress, uint256[] tokenIds, string questName, uint256 startTimestamp, uint256 endTimestamp)"
+        ),
+        parameter: "contractAddress",
+      },
       filter: {
         event: "Transfer",
         args: {
           from: zeroAddress,
         },
       },
+      startBlock: 80000,
     },
-    // Zora1155: {
-    //   abi: erc1155Abi,
-    //   filter: {
-    //     event: "TransferSingle",
-    //     args: {
-    //       from: "0x0000000000000000000000000000000000000000",
-    //     },
-    //   },
-    //   network: {
-    //     base: {
-    //       address: "0x6cfb9280767a3596ee6af887d900014a755ffc75",
-    //       startBlock: 13791613, // TBD
-    //     },
-    //   },
-    // },
-    // HookVault: {
-    //   abi: hookVaultAbi,
-    //   filter: { event: "TokensDeposited" },
-    //   network: {
-    //     ethereum: {
-    //       address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
-    //       startBlock: 19672108,
-    //       endBlock: 19716773,
-    //     },
-    //     arbitrum: {
-    //       address: "0xCa34d7cc253b47E0248b80c859F38a658db7BcCC",
-    //       startBlock: 201662549,
-    //       endBlock: 203684249,
-    //     },
-    //     base: {
-    //       address: "0xB39DF6BBB1Cf2B609DeE43F109caFEFF1A7CCBEa",
-    //       startBlock: 13264923,
-    //       endBlock: 13534940,
-    //     },
-    //   },
-    // },
-    THJ101Guide: {
-      abi: erc721Abi,
+    ERC1155Quest: {
+      network: {},
+      abi: erc1155Abi, // You'll need to define this ABI
+      factory: {
+        address: "0x72c1D670a336602bbfca6457163F291A596eCDdC", // Same as QuestFactory address
+        event: parseAbiItem(
+          "event ERC1155QuestDeployed(address indexed contractAddress, uint256[] tokenIds, string questName, uint256 startTimestamp, uint256 endTimestamp)"
+        ),
+        parameter: "contractAddress",
+      },
+      filter: {
+        event: "TransferSingle",
+        args: {
+          from: zeroAddress,
+        },
+      },
+    },
+    ERC20Quest: {
+      network: {},
+      abi: erc20Abi, // You'll need to define this ABI
+      factory: {
+        address: "0x72c1D670a336602bbfca6457163F291A596eCDdC", // Same as QuestFactory address
+        event: parseAbiItem(
+          "event ERC20QuestDeployed(address indexed contractAddress, string questName, uint256 startTimestamp, uint256 endTimestamp)"
+        ),
+        parameter: "contractAddress",
+      },
       filter: {
         event: "Transfer",
         args: {
           from: zeroAddress,
-        },
-      },
-      network: {
-        optimism: {
-          address: "0x9bc2C48189Ff3865875E4A85AfEb6d6ba848739B",
-          startBlock: 120304396,
-        },
-      },
-    },
-    Success: {
-      abi: erc1155Abi,
-      filter: {
-        event: "TransferSingle",
-        args: {
-          from: zeroAddress,
-        },
-      },
-      network: {
-        base: {
-          address: APICULTURE_ADDRESS,
-          startBlock: 15005617,
-          endBlock: 15890961,
-        },
-      },
-    },
-    Eggs: {
-      abi: erc1155Abi,
-      filter: {
-        event: "TransferSingle",
-        args: {
-          from: zeroAddress,
-        },
-      },
-      network: {
-        base: {
-          address: EGGS_ADDRESS,
-          startBlock: 16798306,
-        },
-      },
-    },
-    Henlo: {
-      abi: erc1155Abi,
-      filter: {
-        event: "TransferSingle",
-        args: {
-          from: zeroAddress,
-        },
-      },
-      network: {
-        base: {
-          address: APICULTURE_ADDRESS,
-          startBlock: 15005617,
-          endBlock: 15890961,
-        },
-      },
-    },
-    Bullas: {
-      abi: erc1155Abi,
-      filter: {
-        event: "TransferSingle",
-        args: {
-          from: zeroAddress,
-        },
-      },
-      network: {
-        base: {
-          address: BULLAS_ADDRESS,
-          startBlock: 15898404,
-        },
-      },
-    },
-    Seaport: {
-      abi: seaportAbi,
-      filter: {
-        event: "OrderFulfilled",
-      },
-      network: {
-        base: {
-          address: "0x0000000000000068F116a894984e2DB1123eB395",
-          startBlock: 15005617,
-        },
-      },
-    },
-    BoogaBears: {
-      abi: boogaBearsAbi,
-      filter: {
-        event: "TokensMinted",
-      },
-      network: {
-        arbitrum: {
-          address: "0x6Ba79f573EdFE305e7Dbd79902BC69436e197834",
-          startBlock: 220862709,
-        },
-      },
-    },
-    Hooked: {
-      abi: erc1155Abi,
-      filter: {
-        event: "TransferSingle",
-        args: {
-          from: zeroAddress,
-        },
-      },
-      network: {
-        base: {
-          address: HOOK_ADDRESS,
-          startBlock: 17031364,
         },
       },
     },
