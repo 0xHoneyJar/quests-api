@@ -28,11 +28,11 @@ export const fetchRafflesAndQuests = async () => {
 export const { raffles, quests } = await fetchRafflesAndQuests();
 
 export default createConfig({
-  // database: {
-  //   kind: "postgres",
-  //   schema: "public",
-  //   publishSchema: "indexer",
-  // },
+  database: {
+    kind: "postgres",
+    schema: "public",
+    publishSchema: "indexer",
+  },
   options: {
     maxHealthcheckDuration: 36000, // 10 hours
   },
